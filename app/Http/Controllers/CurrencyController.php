@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ConvertRequest;
 use App\Http\Requests\PostCurrency;
 use App\Services\CurrencyService;
+use App\Services\ExchangeRateService;
 use Illuminate\Support\Facades\Request;
 
 class CurrencyController extends Controller
@@ -21,7 +22,14 @@ class CurrencyController extends Controller
 
     public function post(PostCurrency $request)
     {
-        $currency = $this->currencyService->create($request->validated());
+        $fields = $request->validated();
+
+        if ($request->get("is_real")) {
+            $exchangeRateService = new ExchangeRateService();
+            $fields["exchange_rate"] = $exchangeRateService->getRateBy($request->get("code"));
+        }
+
+        $currency = $this->currencyService->create($fields);
 
         return response($currency, 201);
     }
