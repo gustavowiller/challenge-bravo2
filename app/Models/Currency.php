@@ -10,6 +10,7 @@ class Currency extends Model
     use HasFactory;
 
     protected $fillable = [
-        "code"
+        "code",
+        "exchange_rate"
     ];
 }
