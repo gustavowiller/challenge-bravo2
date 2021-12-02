@@ -10,7 +10,11 @@ class CurrencyController extends Controller
 {
     public function post(PostCurrency $request)
     {
-        return response([], 201);
+        $currencyService = new CurrencyService;
+
+        $currency = $currencyService->create($request->validated());
+
+        return response($currency, 201);
     }
 
     public function convert(ConvertRequest $request)

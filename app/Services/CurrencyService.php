@@ -6,6 +6,11 @@ use App\Models\Currency;
 
 class CurrencyService
 {
+    public function create(array $fields)
+    {
+        return Currency::create($fields);
+    }
+
     public function convertExchangeRates(
         string $codeFrom,
         string $codeTo,

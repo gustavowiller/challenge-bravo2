@@ -20,10 +20,19 @@ class PostCurrencyTest extends TestCase
 
     public function test_post_valid_params_to_create_new_currency()
     {
-        $response = $this->post('api/currency', [
+        $currency = [
             "code" => "BR",
             "exchange_rate" => 5.3
-        ]);
+        ];
+
+        $this->assertSame(0, Currency::count());
+        $response = $this->post('api/currency', $currency);
+
+        $this->assertSame(1, Currency::count());
+        $currencyCreated = $response->decodeResponseJson();
+
+        $this->assertSame($currency["code"], $currencyCreated["code"]);
+        $this->assertSame($currency["exchange_rate"], $currencyCreated["exchange_rate"]);
 
         $response->assertCreated();
     }

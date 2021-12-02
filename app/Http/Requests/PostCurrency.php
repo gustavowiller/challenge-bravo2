@@ -14,7 +14,8 @@ class PostCurrency extends FormRequest
     public function rules()
     {
         return [
-            "code" => "required|alpha|max:5|unique:App\Models\Currency"
+            "code" => "required|alpha|max:5|unique:App\Models\Currency",
+            "exchange_rate" => "sometimes|numeric"
         ];
     }
 }
