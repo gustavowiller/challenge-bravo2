@@ -8,7 +8,7 @@ class CurrencyTest extends TestCase
 {
     public function test_get_endpoint_convert_currency()
     {
-        $response = $this->get("api/currency/convert?from=USD&to=BR&amount=2.1");
+        $response = $this->get("api/currency/convert/?from=USD&to=BR&amount=2.1");
         $response->assertOk();
     }
 
@@ -16,7 +16,7 @@ class CurrencyTest extends TestCase
     {
         $invalidCurrency = "CODE-WITH-SYMBOLS";
         $response = $this->get(
-            sprintf("api/currency/convert?from=%&to=BR&amount=2.1", $invalidCurrency)
+            sprintf("api/currency/convert/?from=%s&to=BR&amount=2.1", $invalidCurrency)
         );
 
         $response->assertUnprocessable();
