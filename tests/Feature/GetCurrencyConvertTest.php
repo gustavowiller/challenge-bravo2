@@ -6,11 +6,13 @@ use App\Models\Currency;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CurrencyTest extends TestCase
+class GetCurrencyConvertTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_get_endpoint_convert_currency()
+    protected $routeUrl = "api/currency/convert/";
+
+    public function test_get_currency_convert()
     {
         Currency::create([
             'code' => 'USD',
@@ -22,15 +24,15 @@ class CurrencyTest extends TestCase
             'exchange_rate' => 5.64
         ]);
 
-        $response = $this->get("api/currency/convert/?from=USD&to=BR&amount=2.1");
+        $response = $this->get($this->routeUrl . "?from=USD&to=BR&amount=2.1");
         $response->assertOk();
     }
 
-    public function test_get_endpoint_with_invalid_params_expects_422()
+    public function test_get_currency_convert_with_invalid_params_expects_422()
     {
         $invalidCurrency = "CODE-WITH-SYMBOLS";
         $response = $this->get(
-            sprintf("api/currency/convert/?from=%s&to=BR&amount=2.1", $invalidCurrency)
+            sprintf($this->routeUrl . "?from=%s&to=BR&amount=2.1", $invalidCurrency)
         );
 
         $response->assertUnprocessable();
@@ -38,11 +40,11 @@ class CurrencyTest extends TestCase
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
     }
 
-    public function test_get_endpoint_with_non_existent_currency_expects_422()
+    public function test_get_currency_convert_with_non_existent_currency_expects_422()
     {
         $inexistentCurrency = "AADDF";
         $response = $this->get(
-            sprintf("api/currency/convert/?from=%s&to=BR&amount=2.1", $inexistentCurrency)
+            sprintf($this->routeUrl . "?from=%s&to=BR&amount=2.1", $inexistentCurrency)
         );
 
         $response->assertUnprocessable();
@@ -50,7 +52,7 @@ class CurrencyTest extends TestCase
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
     }
 
-    public function test_convert_currencies()
+    public function test_get_currency_convert_with_valid_currencies()
     {
         Currency::create([
             'code' => 'USD',
@@ -65,7 +67,7 @@ class CurrencyTest extends TestCase
         $amount = 2;
 
         $response = $this->get(
-            sprintf("api/currency/convert/?from=USD&to=BR&amount=%f", $amount)
+            sprintf($this->routeUrl . "?from=USD&to=BR&amount=%f", $amount)
         );
 
         $response->assertOk();
