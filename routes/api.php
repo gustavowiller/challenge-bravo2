@@ -21,4 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/currency', [CurrencyController::class, 'post']);
 
+Route::delete('/currency/{code}', [CurrencyController::class, 'delete']);
+
 Route::get('/currency/convert', [CurrencyController::class, 'convert']);
