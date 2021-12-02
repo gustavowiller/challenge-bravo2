@@ -14,7 +14,7 @@ class PostCurrency extends FormRequest
     public function rules()
     {
         return [
-            "code" => "required"
+            "code" => "required|alpha|max:5"
         ];
     }
 }

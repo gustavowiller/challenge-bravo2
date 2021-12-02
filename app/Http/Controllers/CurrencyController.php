@@ -10,6 +10,7 @@ class CurrencyController extends Controller
 {
     public function post(PostCurrency $request)
     {
+        return response([], 201);
     }
 
     public function convert(ConvertRequest $request)
