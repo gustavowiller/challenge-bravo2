@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConvertRequest;
+use App\Http\Requests\PostCurrency;
 use App\Services\CurrencyService;
 
 class CurrencyController extends Controller
 {
+    public function post(PostCurrency $request)
+    {
+    }
+
     public function convert(ConvertRequest $request)
     {
         $conversion = $request->validated();
