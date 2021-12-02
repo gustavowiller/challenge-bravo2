@@ -8,11 +8,19 @@ use App\Services\CurrencyService;
 
 class CurrencyController extends Controller
 {
+    /**
+     * @var CurrencyService $currencyService
+     */
+    protected $currencyService;
+
+    public function __construct(CurrencyService $currencyService)
+    {
+        $this->currencyService = $currencyService;
+    }
+
     public function post(PostCurrency $request)
     {
-        $currencyService = new CurrencyService;
-
-        $currency = $currencyService->create($request->validated());
+        $currency = $this->currencyService->create($request->validated());
 
         return response($currency, 201);
     }
@@ -21,8 +29,7 @@ class CurrencyController extends Controller
     {
         $conversion = $request->validated();
 
-        $currencyService = new CurrencyService;
-        $result = $currencyService->convertExchangeRates(
+        $result = $this->currencyService->convertExchangeRates(
             $conversion["from"],
             $conversion["to"],
             $conversion["amount"]
