@@ -12,6 +12,11 @@ class PostCurrencyTest extends TestCase
 
     protected $routeUrl = "api/currency";
 
+    protected $exampleCurrency = [
+        "code" => "BR",
+        "exchange_rate" => 5.3
+    ];
+
     public function test_post_without_params_expects_422()
     {
         $response = $this->post($this->routeUrl);
@@ -22,29 +27,26 @@ class PostCurrencyTest extends TestCase
 
     public function test_post_valid_params_to_create_new_currency()
     {
-        $currency = [
-            "code" => "BR",
-            "exchange_rate" => 5.3
-        ];
-
         $this->assertSame(0, Currency::count());
-        $response = $this->post($this->routeUrl, $currency);
+        $response = $this->post($this->routeUrl, $this->exampleCurrency);
 
         $this->assertSame(1, Currency::count());
         $currencyCreated = $response->decodeResponseJson();
 
-        $this->assertSame($currency["code"], $currencyCreated["code"]);
-        $this->assertSame($currency["exchange_rate"], $currencyCreated["exchange_rate"]);
+        $this->assertSame($this->exampleCurrency["code"], $currencyCreated["code"]);
+        $this->assertSame($this->exampleCurrency["exchange_rate"], $currencyCreated["exchange_rate"]);
 
         $response->assertCreated();
     }
 
     public function test_post_with_invalid_params_expects_422()
     {
-        $response = $this->post($this->routeUrl, [
+        $invalidCurrency = [
             "code" => "BRasdf1",
             "exchange_rate" => "asd"
-        ]);
+        ];
+
+        $response = $this->post($this->routeUrl, $invalidCurrency);
 
         $response->assertUnprocessable();
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
@@ -52,15 +54,9 @@ class PostCurrencyTest extends TestCase
 
     public function test_validates_if_there_already_currency_record()
     {
-        Currency::create([
-            "code" => "BR",
-            "exchange_rate" => 5
-        ]);
+        Currency::create($this->exampleCurrency);
 
-        $response = $this->post($this->routeUrl, [
-            "code" => "BR",
-            "exchange_rate" => 5.1
-        ]);
+        $response = $this->post($this->routeUrl, $this->exampleCurrency);
 
         $response->assertUnprocessable();
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
@@ -68,18 +64,13 @@ class PostCurrencyTest extends TestCase
 
     public function test_recreate_same_currency()
     {
-        $currency = [
-            "code" => "BR",
-            "exchange_rate" => 5.3
-        ];
-
-        $response = $this->post($this->routeUrl, $currency);
+        $response = $this->post($this->routeUrl, $this->exampleCurrency);
         $response->assertCreated();
 
-        $response = $this->delete("api/currency/" . $currency["code"]);
+        $response = $this->delete("api/currency/" . $this->exampleCurrency["code"]);
         $response->assertNoContent();
 
-        $response = $this->post($this->routeUrl, $currency);
+        $response = $this->post($this->routeUrl, $this->exampleCurrency);
         $response->assertCreated();
     }
 }
