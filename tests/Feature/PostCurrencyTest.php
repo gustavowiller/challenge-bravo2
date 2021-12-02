@@ -65,4 +65,21 @@ class PostCurrencyTest extends TestCase
         $response->assertUnprocessable();
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
     }
+
+    public function test_recreate_same_currency()
+    {
+        $currency = [
+            "code" => "BR",
+            "exchange_rate" => 5.3
+        ];
+
+        $response = $this->post($this->routeUrl, $currency);
+        $response->assertCreated();
+
+        $response = $this->delete("api/currency/" . $currency["code"]);
+        $response->assertNoContent();
+
+        $response = $this->post($this->routeUrl, $currency);
+        $response->assertCreated();
+    }
 }
