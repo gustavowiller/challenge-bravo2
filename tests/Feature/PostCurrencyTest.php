@@ -14,6 +14,7 @@ class PostCurrencyTest extends TestCase
 
     protected $exampleCurrency = [
         "code" => "BR",
+        "is_real" => false,
         "exchange_rate" => 5.3
     ];
 
@@ -35,6 +36,7 @@ class PostCurrencyTest extends TestCase
 
         $this->assertSame($this->exampleCurrency["code"], $currencyCreated["code"]);
         $this->assertSame($this->exampleCurrency["exchange_rate"], $currencyCreated["exchange_rate"]);
+        $this->assertSame($this->exampleCurrency["is_real"], $currencyCreated["is_real"]);
 
         $response->assertCreated();
     }

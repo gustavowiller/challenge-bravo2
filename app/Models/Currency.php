@@ -11,6 +11,11 @@ class Currency extends Model
 
     protected $fillable = [
         "code",
+        "is_real",
         "exchange_rate"
+    ];
+
+    protected $attributes = [
+        'is_real' => false,
     ];
 }
