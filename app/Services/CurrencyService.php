@@ -23,7 +23,7 @@ class CurrencyService
         return $amount * $exchangeRateTo / $exchangeRateFrom;
     }
 
-    public function existsCurrency(string $code)
+    public function existsCurrency(string $code): bool
     {
         return Currency::where("code", $code)->exists();
     }
