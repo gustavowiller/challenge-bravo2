@@ -23,9 +23,15 @@ class CurrencyService
         return $amount * $exchangeRateTo / $exchangeRateFrom;
     }
 
-    public function existsCurrency(string $codeCurrency)
+    public function existsCurrency(string $code)
     {
-        return Currency::where("code", $codeCurrency)->exists();
+        return Currency::where("code", $code)->exists();
+    }
+
+    public function deleteCurrency(string $code): void
+    {
+        $currency = Currency::where("code", $code)->first();
+        $currency->delete();
     }
 
     protected function getExchangeRate(string $codeCurrency): float

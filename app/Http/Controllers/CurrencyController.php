@@ -32,6 +32,8 @@ class CurrencyController extends Controller
             abort(404);
         }
 
+        $this->currencyService->deleteCurrency($code);
+
         return response()->noContent();
     }
 
