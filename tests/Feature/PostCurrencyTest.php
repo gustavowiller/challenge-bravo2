@@ -10,9 +10,11 @@ class PostCurrencyTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $routeUrl = "api/currency";
+
     public function test_post_without_params_expects_422()
     {
-        $response = $this->post('api/currency');
+        $response = $this->post($this->routeUrl);
 
         $response->assertUnprocessable();
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
@@ -26,7 +28,7 @@ class PostCurrencyTest extends TestCase
         ];
 
         $this->assertSame(0, Currency::count());
-        $response = $this->post('api/currency', $currency);
+        $response = $this->post($this->routeUrl, $currency);
 
         $this->assertSame(1, Currency::count());
         $currencyCreated = $response->decodeResponseJson();
@@ -39,7 +41,7 @@ class PostCurrencyTest extends TestCase
 
     public function test_post_with_invalid_params_expects_422()
     {
-        $response = $this->post('api/currency', [
+        $response = $this->post($this->routeUrl, [
             "code" => "BRasdf1",
             "exchange_rate" => "asd"
         ]);
@@ -55,7 +57,7 @@ class PostCurrencyTest extends TestCase
             "exchange_rate" => 5
         ]);
 
-        $response = $this->post('api/currency', [
+        $response = $this->post($this->routeUrl, [
             "code" => "BR",
             "exchange_rate" => 5.1
         ]);
