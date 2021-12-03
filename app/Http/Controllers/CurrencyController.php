@@ -56,7 +56,7 @@ class CurrencyController extends Controller
         );
 
         return response([
-            "result" => $result
+            "result" => round($result, 2)
         ]);
     }
 }
