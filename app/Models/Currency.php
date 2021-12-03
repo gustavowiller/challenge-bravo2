@@ -18,4 +18,9 @@ class Currency extends Model
     protected $attributes = [
         'is_real' => false,
     ];
+
+    public function scopeReal($query)
+    {
+        return $query->where('is_real', 1);
+    }
 }

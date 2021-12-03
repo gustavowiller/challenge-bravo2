@@ -38,4 +38,18 @@ class CurrencyService
     {
         return Currency::where("code", $codeCurrency)->first()['exchange_rate'];
     }
+
+    public function updateAllRates(): void
+    {
+        $rates = app(ExchangeRateService::class)->getAll();
+
+        $currencies = Currency::real()->get();
+        foreach ($currencies as $currency) {
+            $rate = $rates[$currency->code] ?? null;
+
+            $currency->update([
+                "exchange_rate" => $rate
+            ]);
+        }
+    }
 }
