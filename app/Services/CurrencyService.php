@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Currency;
+use Illuminate\Support\Facades\Redis;
 
 class CurrencyService
 {
@@ -29,17 +30,25 @@ class CurrencyService
 
     public function deleteCurrency(string $code): void
     {
-        $currency = Currency::where("code", $code)->first();
+        $currency = Currency::where("code_", $code)->first();
         $currency->delete();
     }
 
     protected function getExchangeRate(string $codeCurrency): float
     {
+        $cachedExchangeRate = Redis::get("code_{$codeCurrency}");
+
+        if ($cachedExchangeRate) {
+            return (float) $cachedExchangeRate;
+        }
+
         $currency = Currency::where("code", $codeCurrency)->first();
 
         if (!$currency) {
             abort(422, "The selected currency:{$codeCurrency} is invalid.");
         }
+
+        Redis::set("code_{$codeCurrency}", $currency["exchange_rate"]);
 
         return $currency["exchange_rate"];
     }
