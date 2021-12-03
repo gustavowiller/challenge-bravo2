@@ -14,7 +14,7 @@ class AddIsRealToCurrenciesTable extends Migration
     public function up()
     {
         Schema::table('currencies', function (Blueprint $table) {
-            $table->boolean("is_real");
+            $table->boolean("is_real")->default(false);
         });
     }
 
