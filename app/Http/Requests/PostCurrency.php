@@ -16,7 +16,7 @@ class PostCurrency extends FormRequest
         return [
             "code" => "required|alpha|max:5|unique:App\Models\Currency",
             "is_real" => "required|boolean",
-            "exchange_rate" => "sometimes|numeric",
+            "exchange_rate" => "required_if:is_real,false|numeric",
         ];
     }
 }

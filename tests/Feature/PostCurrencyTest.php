@@ -13,7 +13,7 @@ class PostCurrencyTest extends TestCase
     protected $routeUrl = "api/currency";
 
     protected $fakeCurrency = [
-        "code" => "BR",
+        "code" => "ABCDE",
         "is_real" => false,
         "exchange_rate" => 5.3
     ];
@@ -37,6 +37,36 @@ class PostCurrencyTest extends TestCase
         $this->assertSame($this->fakeCurrency["code"], $currencyCreated["code"]);
         $this->assertSame($this->fakeCurrency["exchange_rate"], $currencyCreated["exchange_rate"]);
         $this->assertSame($this->fakeCurrency["is_real"], $currencyCreated["is_real"]);
+
+        $response->assertCreated();
+    }
+
+    public function test_create_fake_currency_without_exchange_rate_expects_422()
+    {
+        unset($this->fakeCurrency["exchange_rate"]);
+
+        $this->assertSame(0, Currency::count());
+        $response = $this->post($this->routeUrl, $this->fakeCurrency);
+        $response->assertUnprocessable();
+
+        $this->assertSame(0, Currency::count());
+    }
+
+    public function test_post_valid_params_to_create_real_currency()
+    {
+        $realCurrency = [
+            "code" => "BRL",
+            "is_real" => true
+        ];
+
+        $this->assertSame(0, Currency::count());
+        $response = $this->post($this->routeUrl, $realCurrency);
+
+        $this->assertSame(1, Currency::count());
+        $currencyCreated = $response->decodeResponseJson();
+
+        $this->assertSame($realCurrency["code"], $currencyCreated["code"]);
+        $this->assertSame($realCurrency["is_real"], $currencyCreated["is_real"]);
 
         $response->assertCreated();
     }
