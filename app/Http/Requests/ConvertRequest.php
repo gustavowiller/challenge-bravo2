@@ -14,8 +14,8 @@ class ConvertRequest extends FormRequest
     public function rules()
     {
         return [
-            'from' => 'required|alpha|max:5|exists:App\Models\Currency,code',
-            'to' => 'required|alpha|max:5|exists:App\Models\Currency,code',
+            'from' => 'required|alpha|max:5',
+            'to' => 'required|alpha|max:5',
             'amount' => 'required|numeric|min:0'
         ];
     }

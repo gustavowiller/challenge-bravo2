@@ -16,7 +16,6 @@ class CurrencyService
         string $codeTo,
         float $amount
     ): float {
-
         $exchangeRateFrom = $this->getExchangeRate($codeFrom);
         $exchangeRateTo = $this->getExchangeRate($codeTo);
 
@@ -36,7 +35,13 @@ class CurrencyService
 
     protected function getExchangeRate(string $codeCurrency): float
     {
-        return Currency::where("code", $codeCurrency)->first()['exchange_rate'];
+        $currency = Currency::where("code", $codeCurrency)->first();
+
+        if (!$currency) {
+            abort(422, "The selected currency:{$codeCurrency} is invalid.");
+        }
+
+        return $currency["exchange_rate"];
     }
 
     public function updateAllRates(): void
