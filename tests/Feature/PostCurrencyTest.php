@@ -12,7 +12,7 @@ class PostCurrencyTest extends TestCase
 
     protected $routeUrl = "api/currency";
 
-    protected $exampleCurrency = [
+    protected $fakeCurrency = [
         "code" => "BR",
         "is_real" => false,
         "exchange_rate" => 5.3
@@ -26,17 +26,17 @@ class PostCurrencyTest extends TestCase
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
     }
 
-    public function test_post_valid_params_to_create_new_currency()
+    public function test_post_valid_params_to_create_fake_currency()
     {
         $this->assertSame(0, Currency::count());
-        $response = $this->post($this->routeUrl, $this->exampleCurrency);
+        $response = $this->post($this->routeUrl, $this->fakeCurrency);
 
         $this->assertSame(1, Currency::count());
         $currencyCreated = $response->decodeResponseJson();
 
-        $this->assertSame($this->exampleCurrency["code"], $currencyCreated["code"]);
-        $this->assertSame($this->exampleCurrency["exchange_rate"], $currencyCreated["exchange_rate"]);
-        $this->assertSame($this->exampleCurrency["is_real"], $currencyCreated["is_real"]);
+        $this->assertSame($this->fakeCurrency["code"], $currencyCreated["code"]);
+        $this->assertSame($this->fakeCurrency["exchange_rate"], $currencyCreated["exchange_rate"]);
+        $this->assertSame($this->fakeCurrency["is_real"], $currencyCreated["is_real"]);
 
         $response->assertCreated();
     }
@@ -56,9 +56,9 @@ class PostCurrencyTest extends TestCase
 
     public function test_validates_if_there_already_currency_record()
     {
-        Currency::create($this->exampleCurrency);
+        Currency::create($this->fakeCurrency);
 
-        $response = $this->post($this->routeUrl, $this->exampleCurrency);
+        $response = $this->post($this->routeUrl, $this->fakeCurrency);
 
         $response->assertUnprocessable();
         $this->assertArrayHasKey("errors", $response->decodeResponseJson());
@@ -66,13 +66,13 @@ class PostCurrencyTest extends TestCase
 
     public function test_recreate_same_currency()
     {
-        $response = $this->post($this->routeUrl, $this->exampleCurrency);
+        $response = $this->post($this->routeUrl, $this->fakeCurrency);
         $response->assertCreated();
 
-        $response = $this->delete("api/currency/" . $this->exampleCurrency["code"]);
+        $response = $this->delete("api/currency/" . $this->fakeCurrency["code"]);
         $response->assertNoContent();
 
-        $response = $this->post($this->routeUrl, $this->exampleCurrency);
+        $response = $this->post($this->routeUrl, $this->fakeCurrency);
         $response->assertCreated();
     }
 }
