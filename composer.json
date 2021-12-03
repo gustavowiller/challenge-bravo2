@@ -46,6 +46,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "build" : [
+            "php artisan migrate",
+            "php artisan db:seed",
+            "php artisan exchange_rate:update"
         ]
     },
     "extra": {
