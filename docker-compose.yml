@@ -18,6 +18,12 @@ services:
       networks:
         - app-network
 
+    redis:
+      image: redis:6.2
+      restart: unless-stopped
+      networks:
+        - app-network
+
 networks:
   app-network:
     driver: bridge
