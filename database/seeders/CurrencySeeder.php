@@ -17,10 +17,15 @@ class CurrencySeeder extends Seeder
         $currenciesCode = ["USD", "BRL", "EUR", "BTC", "ETH"];
 
         foreach ($currenciesCode as $code) {
-            Currency::create([
-                "code" => $code,
-                "is_real" => true
-            ]);
+            Currency::UpdateOrCreate(
+                [
+                    'code' => $code
+                ],
+                [
+                    "code" => $code,
+                    "is_real" => true
+                ]
+            );
         }
     }
 }
