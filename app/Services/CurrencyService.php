@@ -30,7 +30,7 @@ class CurrencyService
 
     public function deleteCurrency(string $code): void
     {
-        $currency = Currency::where("code_", $code)->first();
+        $currency = Currency::where("code", $code)->first();
         $currency->delete();
     }
 
