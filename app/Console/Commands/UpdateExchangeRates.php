@@ -39,6 +39,7 @@ class UpdateExchangeRates extends Command
     public function handle()
     {
         app(CurrencyService::class)->updateAllRates();
+        $this->info('Updated all exchange rates');
 
         return Command::SUCCESS;
     }
