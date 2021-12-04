@@ -58,11 +58,11 @@ As principais ferramentas utilizadas no desenvolvimento:
 
 <br />
 
-## 🗃️ Arquivos Framework
+## 🗃️ Arquivos framework
 
-O código gerado pela estrutura do laravel foi adicionado no commit de hash c05d6f74 <br />
-Os commits a seguir não contém boilerplate code. <br />
-Os principais arquivos e diretórios manipulados estão listados a seguir
+O código da estrutura do laravel foi adicionado no commit de hash `c05d6f74` <br />
+Demais commits não contém boilerplate code. <br />
+Os principais arquivos e diretórios manipulados estão listados a seguir:
 
 ```bash
 app/Console/Commands/UpdateExchangeRates.php
@@ -77,7 +77,6 @@ tests/Feature/*
 <br />
 
 ## 📖 Documentação API
-<br />
 
 ### Cria uma nova moeda
 
