@@ -78,6 +78,14 @@ tests/Feature/*
 
 ## 📖 Documentação API
 
+### API Endpoint
+
+```
+http://localhost:8085/api/
+```
+
+<br />
+
 ### Cria uma nova moeda
 
 Http Request
