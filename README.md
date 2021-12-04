@@ -201,6 +201,6 @@ HTTP Code: 200 / Retorna o resultado da conversão monetária
 
 ## ⏭️ Próximos Passos
 
- - [ ] Configurar serviço cron em um container para executar a tarefa de background da aplicação.
- - [ ] Configurar volume para o container da aplicação para permitir a manipulação de arquivos em tempo de execução"
- - [ ] Adicionar package de codesniffer para garantir um mesmo estilo de formatação para a base de código.
+ - [ ] Configurar serviço cron em um container para executar a tarefa de background da aplicação
+ - [ ] Adicionar volume no container da aplicação para permitir a manipulação de arquivos em tempo de execução
+ - [ ] Adicionar codesniffer ao projeto para padronizar um estilo de formatação
