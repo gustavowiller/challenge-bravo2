@@ -36,7 +36,7 @@ $ git clone https://github.com/gustavowiller/challenge-bravo2.git
 $ cd challenge-bravo2
 
 # Comando para copiar o arquivo template de configuração de variaveis de ambiente
-$ cp .env-example .env
+$ cp .env.example .env
 
 # Comando para inicializar os containers através do docker-compose
 $ docker-compose up -d
